@@ -7,7 +7,7 @@
 --===================================================================================
 
 -- Define script version
-local sv = "1.0.4.15"
+local sv = "1.0.4.16"
 
 -- User settings
 local toggle_preview = 1 -- Preview links are enabled by default (set to 0 to turn off)
@@ -41,164 +41,6 @@ util.require_natives("2944a")
 --- crafted w/ love by DEEZY (͡° ͜ʖ ͡°), zpequikinouz, daniela_xo, aqua =^.^=, mayakitten and Sᴀᴛɪɴ
 --- improved by Kitty(Alina) =^.^= and Shmoxx and daniela_xo
 --- git gud or die trying
-
-
---===========================================================================
---░█████╗░██╗░░██╗░█████╗░███╗░░██╗░██████╗░███████╗██╗░░░░░░█████╗░░██████╗░
---██╔══██╗██║░░██║██╔══██╗████╗░██║██╔════╝░██╔════╝██║░░░░░██╔══██╗██╔════╝░
---██║░░╚═╝███████║███████║██╔██╗██║██║░░██╗░█████╗░░██║░░░░░██║░░██║██║░░██╗░
---██║░░██╗██╔══██║██╔══██║██║╚████║██║░░╚██╗██╔══╝░░██║░░░░░██║░░██║██║░░╚██╗
---╚█████╔╝██║░░██║██║░░██║██║░╚███║╚██████╔╝███████╗███████╗╚█████╔╝╚██████╔╝
---░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝░╚═════╝░╚══════╝╚══════╝░╚════╝░░╚═════╝░
---===========================================================================
--- Version 1.0.4.15 - 11.24.2024
---====================================================
---   * Added Backpack (Back To School v2)
---====================================================
-
--- Version 1.0.5.05 - 11.23.2024
---====================================================
---   * Added Backpack (Back To School Kitty Edition)
---   * Added Backpacks 
---   * Added Stuff From Body Accesories Lua 
---   * Fixed Holster (Male and Female)
---====================================================
-
--- Version 1.0.5.05 - 11.23.2024
---====================================================
---   * Renamed Script to Animation+ v2
---   * Renamed Some Scenarios
---   * Added Katana (Wepons)
---   * Added Some new Props
---   * Added Chair (Scenario) Not Working!!
---====================================================
-
--- Version 1.0.5.04 - 11.21.2024
---====================================================
---   * Added Rose Proposal v2 (Scenario) by.mdasif
---   * Fixed Bunny Ears by daniela_xo  =^.^=
---   * Re-added Holster (Male and Female)
---   * Added Drone (Prop)
---====================================================
-
--- Version 1.0.5.03 - 11.20.2024
---====================================================
---   * Added Rose Proposal  (Scenario) 
---   * Fixed Cat Ears With Rose 
---   * Added SkateBoard (Prop)
---   * Removed Smg Holster (Male)
---====================================================
-
--- Version 1.0.5.02 - 11.19.2024
---====================================================
---   * Added Bouquet of Roses (Scenario) by .mdasif
---   * Added Kitty Backpacks
---   * Fixed Remove Cat Ears
---====================================================
-
--- Version 1.0.5.01 - 11.11.2024
---====================================================
---   * Added Cat Ears (Brown) :from Daniela_xo 
---   * Added Cat Ears (Sad)
---   * Added Remove Cat Ears
---   * Changed the gitgud message
---   * Removed Custon Animations and Sex Music
---====================================================
--- Small Fix Update
---====================================================
- -- *Fixed Bug When Pressing X to Handsup Props being deleted 
-
--- Version 1.0.4.8 - 24.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added 6 couple animations from Smo's Mods
-
--- Version 1.0.4.7 - 24.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added 156 duo animations from Darks Animations
---   * Added setting to turn off preview links in code
---   * Easier access for options
---   * General code optimization
-
--- Version 1.0.4.6 - 24.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added new locals j and p
---   * Added 9 single animations from Darks Animations
-
--- Version 1.0.4.5 - 23.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added new locals p, anim_dict and anim_name
---   * Added 24 animations from 𝐏𝔢𝔯𝔩𝔢𝔫𝔣𝔲𝔠𝔥𝔰 𝐀𝔫𝔦𝔪𝔞𝔱𝔦𝔬𝔫𝔰™
-
--- Version 1.0.4.4 - 15.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added tabeau3 animation
-
--- Version 1.0.4.3 - 12.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added comments
---   * Added dividers
---   * Adjustments to the changelog
---   * Integration of new locals
-
--- Version 1.0.4.2 - 11.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added pose_pack_1
---   * Added pose_pack_2
---   * Added shortcut for Erotic Dances in Romance
---   * Added shortcut for Romance in Erotic
---   * Created new category Animals
---   * Created new category Animals/Cats
---   * Fixed position for tabeau2 animation
-
--- Version 1.0.4.1 - 10.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added changelog
---   * Added 𝐏𝐏𝟎𝟖 𝐏𝐨𝐬𝐞 𝐏𝐚𝐜𝐤 𝟖
-
--- Version 1.0.4.0 - 08.07.2024
---====================================================
--- Major Updates
---====================================================
---   * Added category for custom animations
---   * Added 𝐑𝐀𝐑𝐄𝐋𝐔𝐕 as featured creator
---   * Added 𝐏𝐏𝟎𝟑 𝐏𝐨𝐬𝐞 𝐏𝐚𝐜𝐤 𝟑
---   * Added 𝐏𝐏𝟎𝟒 𝐏𝐨𝐬𝐞 𝐏𝐚𝐜𝐤 𝟒
---   * Added 𝐏𝐏𝟎𝟔 𝐏𝐨𝐬𝐞 𝐏𝐚𝐜𝐤 𝟔
---   * Added 𝐏𝐏𝟎𝟕 𝐏𝐨𝐬𝐞 𝐏𝐚𝐜𝐤 𝟕
-
--- Version 1.0.3.0 - 24.06.2024
---====================================================
--- Major Updates
---====================================================
---   * Added new animations from other scripts
---   * Added new props from other scripts
---   * Added tints for glowing sticks
---   * Fixed position of glowing sticks
---   * Tidied up the script
-
--- Version 1.0.0.0 - 02.06.2024
---====================================================
--- Initial Release
---====================================================
---   * Added commands for animations
---   * Added initial script version
---   * Added sex animations
 
 --=========================================================================
 --░██████╗████████╗░█████╗░██████╗░████████╗
@@ -345,7 +187,7 @@ plushes_vroot = l(props_root, "Plushes & Toys", {"props_plushes"}, "Awww")
 scenarios_vroot = l(props_root, "Scenarios", {"props_scenarios"}, "Mixed set of prop animations")
 glowstick_root = l(props_root, "Attach Glowsticks", {"attachglowsticks"}, "")
 backpacks_vroot = l(props_root, "Backpacks", {"props_backpacks"}, "Assorted list of Backpacks")
-
+chairs_vroot = l(props_root, "Chairs", {"props_chairs"}, "Assorted list of Backpacks")
 animalanims_root = l(mr, "Animals", {"animalanims"}, "List of animations for animals")
 d(animalanims_root, "Animals")
 catanims_vroot = l(animalanims_root, "Cats", {"catanims"}, "List of animations for cats")
@@ -465,7 +307,7 @@ function request_model_load(hash)
     end
 end
 
-function attachto(offx, offy, offz, pid, angx, angy, angz, hash, bone, isnpc, isveh, tint)
+function attachto(offx, offy, offz, pid, angx, angy, angz, hash, bone, isnpc, isveh, tint, vertexindex)
     local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local bone = PED.GET_PED_BONE_INDEX(ped, bone)
     local coords = ENTITY.GET_ENTITY_COORDS(ped, true)
@@ -483,7 +325,7 @@ function attachto(offx, offy, offz, pid, angx, angy, angz, hash, bone, isnpc, is
         OBJECT.SET_OBJECT_TINT_INDEX(obj, tint)
     end
     ENTITY.SET_ENTITY_INVINCIBLE(obj, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(obj, ped, bone, offx, offy, offz, angx, angy, angz, false, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(obj, ped, bone, offx, offy, offz, angx, angy, angz, false, false, true, false, vertexindex or 0, true)
     ENTITY.SET_ENTITY_COMPLETELY_DISABLE_COLLISION(obj, false, true)
 end
 
@@ -3501,11 +3343,6 @@ a(accessories_vroot, "Kitty (Yellow)", {"Kitty (Yellow"}, "", function(on_click)
     attachto(0.25, 0.0, 0.22, players.user(), 0.0, -90.0, 180.0, 507996967, 24818, false, false)
 end)
 
-a(accessories_vroot, "Bird", {"Kitty (Yellow"}, "", function(on_click)
-    request_model_load(345389905)
-    attachto(-0.120, 0.0, 0.20, players.user(), 10.5, -90.0, 180.0, 345389905, 24818 , false, false)
-end)
-
 a(accessories_vroot, "Kitty (Green)", {"Kitty (Green"}, "", function(on_click)
     request_model_load(101594454)
     attachto(0.25, 0.0, 0.22, players.user(), 0.0, -90.0, 180.0, 101594454, 24818, false, false)
@@ -4250,53 +4087,91 @@ a(melee_vroot, "Tennis Rack (Swing)", {"Tennis Rack (Swing)"}, "", function(on_c
 end)
 
 ----- Backpacks -----
-a(backpacks_vroot, "Back To School (Kitty Edition)", {"Back To School"}, "", function(on_click)
-  request_model_load (3092990097) 
-  attachto(0.07, -0.14, -0.05, players.user(), 0.0, -90.0, 180.0, 3092990097, 24818, false, false)
-  request_model_load(1520780799)
-  attachto(-0.08, -0.14, -0.046, players.user(), 0.0, 20.0, 6.0, 1520780799, 24818, false, false)
-  request_model_load(3105469113)
-  attachto(-0.047, -0.137, -0.062, players.user(), 0.0, 20.0, 6.0, 3105469113, 24818, false, false)
-  request_model_load(783371156)
-  attachto(0.019, -0.13, -0.057, players.user(), 0.0, 20.0, 6.0, 783371156, 24818, false, false)
-  request_model_load(2829113236)
-  attachto(-0.007, -0.132, -0.022, players.user(), 0.0, 20.0, 6.0, 2829113236, 24818, false, false)
-  request_model_load(3125389411)
-  attachto(-0.0, -0.145, -0.09, players.user(), 0.0, -120.0, -17.0, 3125389411, 11816, false, false)
-  request_model_load(403140669)
-  attachto(-0.008, -0.139, -0.10, players.user(), 0.0, -30.0, -15.0, 403140669, 11816, false, false)
-  request_model_load(507996967)
-  attachto(0.25, 0.0, 0.22, players.user(), 0.0, -90.0, 180.0, 507996967, 24818, false, false)
-  request_model_load(3085098415)
-  attachto(0.2, -0.15, 0.0, players.user(), 0.0, 150.0, 0.0, 3085098415, 24818, false, false)
-  request_model_load(4076109223)
-  attachto(0.35, -0.18, 0.0, players.user(), 0.0, 0.0, 0.0, 4076109223, 24818, false, false)
-  request_model_load(-1230249498)
-  attachto(0.040, 0.000, 0.020, players.user(), 0.0, -40.0, 0.0, -1230249498, 31086, false, false)
-  request_model_load(-1230249498)
-  attachto(0.040, 0.000, -0.020, players.user(), 180.0, 40.0, 0.0, -1230249498, 31086, false, false)
 
+a(backpacks_vroot, "florecer", {"florecer"}, "", function(on_click)
+    local objects = {
+        {
+            model = "sf_prop_sf_backpack_03a",
+            boneIndex = 24818,
+            offset = {x = 0.08, y = -0.1, z = 0.0},
+            rotation = {x = 169.5, y = 93.0, z = -4.5}
+        },
+        {
+            model = "ch_prop_arcade_claw_plush_01a",
+            boneIndex = 24818,
+            offset = {x = 0.25, y = -0.09, z = 0.05},
+            rotation = {x = -3.0, y = 70.5, z = 3.0}
+        },
+        {
+            model = "prop_cs_katana_01",
+            boneIndex = 24818,
+            offset = {x = 0.34, y = -0.08, z = -0.06},
+            rotation = {x = 16.5, y = -72.0, z = 0.0}
+        },
+        {
+            model = "prop_cs_katana_01",
+            boneIndex = 24818,
+            offset = {x = 0.32, y = -0.11, z = 0.11},
+            rotation = {x = -174.0, y = -66.0, z = 3.0}
+        },
+        {
+            model = "w_sb_assaultsmg",
+            boneIndex = 24818,
+            offset = {x = 0.17, y = -0.15, z = -0.14},
+            rotation = {x = -100.5, y = -15.0, z = -1.5}
+        },
+        {
+            model = "w_sb_assaultsmg",
+            boneIndex = 24818,
+            offset = {x = 0.17, y = -0.15, z = 0.16},
+            rotation = {x = -100.5, y = -15.0, z = -1.5}
+        },
+        {
+            model = "w_ar_assaultriflemk2_mag1",
+            boneIndex = 65068,
+            offset = {x = 0.04, y = 0.0, z = 0.02},
+            rotation = {x = 0.0, y = -40.0, z = 0.0}
+        },
+        {
+            model = "w_ar_assaultriflemk2_mag1",
+            boneIndex = 65068,
+            offset = {x = 0.04, y = 0.0, z = -0.02},
+            rotation = {x = 180.0, y = -40.0, z = 0.0}
+        },
+        {
+            model = "w_me_bat_xm3_06",
+            boneIndex = 24818,
+            offset = {x = 0.0, y = -0.16, z = 0.15},
+            rotation = {x = 0.0, y = -91.5, z = 4.5}
+        },
+        {
+            model = "sum_prop_sum_arcade_plush_03a",
+            boneIndex = 24818,
+            offset = {x = 0.06, y = -0.22, z = 0.0},
+            rotation = {x = -16.5, y = 108.0, z = 0.0}
+        }
+    }
+
+    for _, obj in ipairs(objects) do
+        local modelHash = util.joaat(obj.model)
+        request_model_load(modelHash)
+        attachto(obj.offset.x, obj.offset.y, obj.offset.z, players.user(), obj.rotation.x, obj.rotation.y, obj.rotation.z, modelHash, obj.boneIndex, false, false, nil, 2)
+    end
 end)
-a(backpacks_vroot, "Back To School v2", {"Back To School v2"}, "", function(on_click)
-    request_model_load (3092990097)
-    attachto(0.07, -0.14, -0.05, players.user(), 0.0, -90.0, 180.0, 3092990097, 24818, false, false)
-    request_model_load (1255410010)
-    attachto(-0.05, -0.15, -0.15, players.user(), 0.0, 0.0, 0.0, 1255410010, 24818, false, false)
-    request_model_load(3085098415)
-    attachto(-0.08, -0.14, -0.046, players.user(), 0.0, 20.0, 6.0, 3085098415, 24818, false, false)
-    request_model_load(-1048509434)
-    attachto(-0.15, -0.06, 0.03, players.user(), 111.0, 5.0, 110.0, -1048509434, 31086, false, false)
-    request_model_load(3153357137)
-    attachto(-0.13, -0.16, -0.14, players.user(), 5.0, 62.0, 0.0,  3153357137, 24817, false, false)
-end) 
 
-a(backpacks_vroot, "Back To School v2", {"Back To School v2"}, "", function(on_click)
-    request_model_load (3092990097)
-    attachto(0.07, -0.14, -0.05, players.user(), 0.0, -90.0, 180.0, 3092990097, 24818, false, false)
-    request_model_load (3821393119)
-    attachto(-0.145, -0.160, -0.190, players.user(), -110.0, -15.0, 1.5, 3821393119, 24818, false, false)
-end)  
+--- Chairs ---
 
+a(chairs_vroot, "Chair", {"Chair"}, "", function(on_click)
+    request_model_load(47332588)
+    attachto( -0.04, -0.4, -0.4, players.user(), 45.0, 0.0, 174.0, 47332588,  0.0, false, false)
+     play_animstationary("timetable@reunited@ig_10", "base_amanda", -1)
+end)
+
+a(chairs_vroot, "Chair 2 ", {"Chair"}, "", function(on_click)
+    request_model_load(2959621912)
+    attachto( -0.07, -0.52, -0.26, players.user(), 64.5, 0.0, 175.5, 2959621912,  0.0, false, false)
+     play_animstationary("timetable@jimmy@mics3_ig_15@", "mics3_15_base_tracy", -1)
+end)
 
 ----- PLUSHES & TOYS -----
 
@@ -4619,12 +4494,6 @@ a(scenarios_vroot, "Painting", {"panting"}, "", function(on_click)
     request_model_load(1468012617)
     attachto(0.0, -0.0, 0.0, players.user(), 180.0, 180.0, 180.0, 1468012617, 28422, false, false)
     play_anim("mp_character_creation@customise@male_a", "loop", -1)
-end)
-
-a(scenarios_vroot, "Chair", {"Chair"}, "", function(on_click)
-    request_model_load(47332588)
-    attachto( -0.04, -0.4, -0.4, players.user(), 45.0, 0.0, 174.0, 47332588,  0.0, false, false)
-     play_animstationary("timetable@reunited@ig_10", "base_amanda", -1)
 end)
 
 a(scenarios_vroot, "Chair 2", {"chair2"}, "", function(on_click)
