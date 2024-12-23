@@ -7,7 +7,7 @@
 --===================================================================================
 
 -- Define script version
-local sv = "1.0.4.16"
+local sv = "1.0.4.17"
 
 -- User settings
 local toggle_preview = 1 -- Preview links are enabled by default (set to 0 to turn off)
@@ -33,7 +33,6 @@ local s = "Added by Satin on "
 local anim = {anim_dict, anim_name}
 
 -- Load necessary libraries
-require("natives-1627063482")
 util.require_natives("2944a")
 
 -- Warning! Do not rename the script file as it can cause issues with the script!
@@ -213,29 +212,25 @@ local RomanceDirectory = r("Stand>Lua Scripts>Animations+>Romance")
 d(mr,"Options")
 
 a(mr, "Stop Animation", {"stopanim"}, "", function(on_click)
-    TASK.CLEAR_PED_TASKS(PLAYER.PLAYER_PED_ID())
-    TASK.CLEAR_PED_SECONDARY_TASK(PLAYER.PLAYER_PED_ID())
+    TASK.CLEAR_PED_TASKS(players.user_ped())
+    TASK.CLEAR_PED_SECONDARY_TASK(players.user_ped())
 end)
 
 a(mr, "Force Stop Animation", {"forcestopanim"}, "", function(on_click)
-    TASK.CLEAR_PED_TASKS_IMMEDIATELY(PLAYER.PLAYER_PED_ID())
+    TASK.CLEAR_PED_TASKS_IMMEDIATELY(players.user_ped())
 end)
 
 a(mr,"Detach Objects", {"detachobjects"}, "",function(on_click)
-	removeObjectsFromPlayer(PLAYER.PLAYER_ID())
+	removeObjectsFromPlayer(players.user())
 end)
-
-function Chat(t)
-    TriggerEvent("chatMessage", '', { 0, 0x99, 255}, "" .. tostring(t))
-end
 
 local X_HandsUp = true
 menu.toggle(mr, "Hold X to Handsup", {""}, "hold X to handsup, this will also stop running animation", function (on_change)
-    if on_change then X_HandsUp = true else X_HandsUp = false end
+    X_HandsUp = on_change
 end, X_HandsUp)
 
 function play_anim(dict, name, duration)
-    ped = PLAYER.PLAYER_PED_ID()
+    ped = players.user_ped()
     while not STREAMING.HAS_ANIM_DICT_LOADED(dict) do
         STREAMING.REQUEST_ANIM_DICT(dict)
         util.yield()
@@ -245,7 +240,7 @@ function play_anim(dict, name, duration)
 end
 
 function play_animstationary(dict, name, duration)
-    ped = PLAYER.PLAYER_PED_ID()
+    ped = players.user_ped()
     while not STREAMING.HAS_ANIM_DICT_LOADED(dict) do
         STREAMING.REQUEST_ANIM_DICT(dict)
         util.yield()
@@ -254,7 +249,7 @@ function play_animstationary(dict, name, duration)
 end
 
 function play_animfreeze(dict, name, duration)
-    ped = PLAYER.PLAYER_PED_ID()
+    ped = players.user_ped()
     while not STREAMING.HAS_ANIM_DICT_LOADED(dict) do
         STREAMING.REQUEST_ANIM_DICT(dict)
         util.yield()
@@ -264,7 +259,7 @@ function play_animfreeze(dict, name, duration)
 end
 
 function play_animstopatlastframe(dict, name, duration)
-    ped = PLAYER.PLAYER_PED_ID()
+    ped = players.user_ped()
     while not STREAMING.HAS_ANIM_DICT_LOADED(dict) do
         STREAMING.REQUEST_ANIM_DICT(dict)
         util.yield()
@@ -274,7 +269,7 @@ function play_animstopatlastframe(dict, name, duration)
 end
 
 function play_animnoloop(dict, name, duration)
-    ped = PLAYER.PLAYER_PED_ID()
+    ped = players.user_ped()
     while not STREAMING.HAS_ANIM_DICT_LOADED(dict) do
         STREAMING.REQUEST_ANIM_DICT(dict)
         util.yield()
@@ -284,7 +279,7 @@ function play_animnoloop(dict, name, duration)
 end
 
 function play_animplayonce(dict, name, duration)
-    ped = PLAYER.PLAYER_PED_ID()
+    ped = players.user_ped()
     while not STREAMING.HAS_ANIM_DICT_LOADED(dict) do
         STREAMING.REQUEST_ANIM_DICT(dict)
         util.yield()
@@ -347,21 +342,13 @@ function removeObjectsFromPlayer(pid)
 end
 
 function getAllObjects()
-	local out = {}
-		for key, value in pairs(entities.get_all_objects_as_handles()) do
-			out[#out+1] = value
-		end
-		for key, value in pairs(entities.get_all_objects_as_handles()) do
-			out[#out+1] = value
-		end
-		for key, value in pairs(entities.get_all_objects_as_handles()) do
-			out[#out+1] = value
-		end
-		for key, value in pairs(entities.get_all_objects_as_handles()) do
-			out[#out+1] = value
-		end
-	return out
+    local out = {}
+    for _, value in ipairs(entities.get_all_objects_as_handles()) do
+        out[#out + 1] = value
+    end
+    return out
 end
+
 
 function RequestControlOfEnt(entity)
 	local tick = 0
@@ -419,7 +406,7 @@ end
 --------------------------------------------------------------------------------
 
 function entitiesDelete(h)
-    p = PLAYER.GET_PLAYER_PED(players.user())
+    p = players.user_ped()
     for i, o in pairs(entities.get_all_objects_as_handles()) do
         if ((ENTITY.GET_ENTITY_MODEL(o) == h) and (p == ENTITY.GET_ENTITY_ATTACHED_TO(o))) then
             if not NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(o) then
@@ -434,16 +421,21 @@ function entitiesDelete(h)
 end
 
 function removeOthers()
-    p = PLAYER.GET_PLAYER_PED(players.user())
-    for i, o in pairs(entities.get_all_objects_as_handles()) do
+    local p = players.user_ped()
+    local objects = entities.get_all_objects_as_handles()
+
+    local excludedModels = {
+        [-970962656] = true,
+        [1691386759] = true,
+        [76092178] = true,
+        [-1230249498] = true,
+        [-839348691] = true
+    }
+
+    for _, o in ipairs(objects) do
         if p == ENTITY.GET_ENTITY_ATTACHED_TO(o) then
-            if ((ENTITY.GET_ENTITY_MODEL(o) == -970962656) or
-                (ENTITY.GET_ENTITY_MODEL(o) == 1691386759) or
-                (ENTITY.GET_ENTITY_MODEL(o) == 76092178) or
-                (ENTITY.GET_ENTITY_MODEL(o) == -1230249498) or
-                (ENTITY.GET_ENTITY_MODEL(o) == -839348691) or
-                (ENTITY.GET_ENTITY_MODEL(o) == -1230249498)) then
-            else
+            local model = ENTITY.GET_ENTITY_MODEL(o)
+            if not excludedModels[model] then
                 if not NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(o) then
                     NETWORK.REQUEST_CONTROL_OF_ENTITY(o)
                     while not NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(o) do
@@ -508,7 +500,7 @@ function addLegband(withRose)
         {6442,0.27,0.27,0.27,0.02,0.035,0,-0.058,-0.058,-0.058,0,0,0,180,180,180,180,180,180, 0.21,0.05,0.08,0,-80,-40},
         {23639,0.30,0.30,0.30,0.025,0.038,0.005,0.0640,0.0640,0.0640,0,0,0,0,0,0,0,0,0, 0.225,0.04,-0.076,0,-90,-50}
     }
-    v = PED.GET_PED_DRAWABLE_VARIATION(PLAYER.PLAYER_PED_ID(), 4)
+    v = PED.GET_PED_DRAWABLE_VARIATION(players.user_ped(), 4)
     x = players.user()
     for i, n in ipairs(p) do
         if contains(n, v) then
@@ -745,7 +737,7 @@ a(idleanims_root, "Overly Proud Standing", {"Overly Proud Standing"}, "", functi
 end)
 
 a(idleanims_root, "Partying & Beer", {"Partying & Beer"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_PARTYING", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_PARTYING", 0, true)
 end)
 
 a(idleanims_root, "Pensive Standing", {"Pensive Standing"}, "", function(on_click)
@@ -761,7 +753,7 @@ a(idleanims_root, "Shy 2", {"Shy 2"}, s.."06/05/2023", function(on_click)
 end)
 
 a(idleanims_root, "Smoke Idling", {"Smoke Idling"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_PROSTITUTE_HIGH_CLASS", 0, true)
 end)
 
 a(idleanims_root, "Standing Tough", {"Standing Tough"}, "", function(on_click)
@@ -769,7 +761,7 @@ a(idleanims_root, "Standing Tough", {"Standing Tough"}, "", function(on_click)
 end)
 
 a(idleanims_root, "Standing with Phone", {"Standing with Phone"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_STAND_MOBILE", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_STAND_MOBILE", 0, true)
 end)
 
 a(idleanims_root, "Take Selfies Idling", {"Take Selfies Idling"}, "", function(on_click)
@@ -1634,7 +1626,7 @@ a(actions_vroot, "Cats Cradle", {"Cats Cradle"}, "", function(on_click)
 end)
 
 a(actions_vroot, "Cheering Hyped", {"Cheering Hyped"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_CHEERING", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_CHEERING", 0, true)
 end)
 
 a(actions_vroot, "Chin Brush", {"Chin Brush"}, "", function(on_click)
@@ -1754,7 +1746,7 @@ a(emotes_root, "Always Ready", {"Always Ready"}, "", function(on_click)
 end)
 
 a(emotes_root, "ATM", {"ATM"}, s.."06/05/2023", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "PROP_HUMAN_ATM", -1)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "PROP_HUMAN_ATM", -1)
 end)
 
 a(emotes_root, "Beat Up", {"Beat Up"}, s.."02/06/2024", function(on_click)
@@ -2545,11 +2537,11 @@ a(gymanims_vroot, "Back Roll", {"Back Roll"}, "", function(on_click)
 end)
 
 a(gymanims_vroot, "Barbell Curl", {"Barbell Curl"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_MUSCLE_FREE_WEIGHTS", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_MUSCLE_FREE_WEIGHTS", 0, true)
 end)
 
 a(gymanims_vroot, "Bench Press", {"Bench Press"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "PROP_HUMAN_SEAT_MUSCLE_BENCH_PRESS_PRISON", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "PROP_HUMAN_SEAT_MUSCLE_BENCH_PRESS_PRISON", 0, true)
 end)
 
 a(gymanims_vroot, "Chin Up", {"Chin Up"}, "", function(on_click)
@@ -2645,7 +2637,7 @@ a(gymanims_vroot, "Squat Idle", {"Squat Idle"}, s.."02/06/2024", function(on_cli
 end)
 
 a(gymanims_vroot, "Stationary Jog", {"Stationary Jog"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_JOG_STANDING", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_JOG_STANDING", 0, true)
 end)
 
 a(gymanims_vroot, "Stretch Arms", {"Stretch Arms"}, "", function(on_click)
@@ -2675,7 +2667,7 @@ a(gymanims_vroot, "Yoga A", {"Yoga A"}, "", function(on_click)
 end)
 
 a(gymanims_vroot, "Yoga B", {"Yoga B"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_YOGA", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_YOGA", 0, true)
 end)
 
 a(gymanims_vroot, "Yoga C", {"Yoga C"}, "", function(on_click)
@@ -2762,7 +2754,7 @@ a(tuneranims_vroot, "Engine Maintenance 4", {"Engine Maintenance 4"}, "", functi
 end)
 
 a(tuneranims_vroot, "Hammering", {"Hammering"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_HAMMERING", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_HAMMERING", 0, true)
 end)
 
 a(tuneranims_vroot, "Inspect Components", {"Inspect Components"}, "", function(on_click)
@@ -2815,7 +2807,7 @@ a(tuneranims_vroot, "Tyre Maintenance", {"Tyre Maintenance"}, "", function(on_cl
 end)
 
 a(tuneranims_vroot, "Welding", {"Welding"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_WELDING", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_WELDING", 0, true)
 end)
 
 a(tuneranims_vroot, "Wiring Maintenance", {"Wiring Maintenance"}, "", function(on_click)
@@ -3061,7 +3053,7 @@ a(medicanims_vroot, "CPR (Kiss Of Life)", {"CPR (Kiss Of Life)"}, "", function(o
 end)
 
 a(medicanims_vroot, "Examine Victim", {"Examine Victim"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "CODE_HUMAN_MEDIC_KNEEL", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "CODE_HUMAN_MEDIC_KNEEL", 0, true)
 end)
 
 a(medicanims_vroot, "First Aid Kit", {"First Aid Kit"}, "", function(on_click)
@@ -3077,13 +3069,13 @@ a(medicanims_vroot, "Medical Bag", {"Medical Bag"}, "", function(on_click)
 end)
 
 a(medicanims_vroot, "Notepad ", {"Notepad"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true)
 	request_model_load(463086472)
     attachto(0.0, 0.0, 0.0, players.user(), 0.0, 0.0, 0.0, 463086472, 28422, false, false)
 end)
 
 a(medicanims_vroot, "Tend To Victim", {"Tend To Victim"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
 end)
 
 a(medicanims_vroot, "Time Of Death", {"Time Of Death"}, "", function(on_click)
@@ -4088,7 +4080,7 @@ end)
 
 ----- Backpacks -----
 
-a(backpacks_vroot, "florecer", {"florecer"}, "", function(on_click)
+a(backpacks_vroot, "Florecer", {"florecer"}, "", function(on_click)
     local objects = {
         {
             model = "sf_prop_sf_backpack_03a",
@@ -4345,7 +4337,7 @@ a(foodanddrinks_vroot, "Ciggy (Attach)", {"ciggyattach"}, "attaches between the 
 end)
 
 a(foodanddrinks_vroot, "Ciggy (Smoke)", {"ciggysmoke"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_AA_SMOKE", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_AA_SMOKE", 0, true)
 end)
 
 a(foodanddrinks_vroot, "Coffee", {"Coffee"}, "", function(on_click)
@@ -4451,7 +4443,7 @@ a(foodanddrinks_vroot, "Water", {"Water"}, "", function(on_click)
 end)
 
 a(foodanddrinks_vroot, "Joint (Smoke)", {"jointsmoke"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_SMOKING_POT", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_SMOKING_POT", 0, true)
 end)
 
 a(foodanddrinks_vroot, "Whisky Bottle", {"Whisky Bottle"}, "", function(on_click)
@@ -4604,7 +4596,7 @@ a(scenarios_vroot, "Basket Ball", {"Basket Ball"}, "", function(on_click)
 end)
 
 a(scenarios_vroot, "Binoculars", {"Binoculars"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_BINOCULARS", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_BINOCULARS", 0, true)
 end)
 
 a(foodanddrinks_vroot, "Bong", {"Bong"}, "", function(on_click)
@@ -4694,7 +4686,7 @@ a(scenarios_vroot, "Cash Offer", {"Cash Offer"}, "", function(on_click)
 end)
 
 a(scenarios_vroot, "Check Map", {"Check Map"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_TOURIST_MAP", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_TOURIST_MAP", 0, true)
 end)
 
 a(scenarios_vroot, "Check Tablet", {"Check Tablet"}, "", function(on_click)
@@ -4710,7 +4702,7 @@ a(scenarios_vroot, "Coin Toss", {"Coin Toss"}, "", function(on_click)
 end)
 
 a(scenarios_vroot, "Concrete Drilling", {"Concrete Drilling"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_CONST_DRILL", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_CONST_DRILL", 0, true)
 end)
 
 a(scenarios_vroot, "Console Gamer", {"Console Gamer"}, "", function(on_click)
@@ -4740,7 +4732,7 @@ a(scenarios_vroot, "Farmer", {"Farmer"}, "", function(on_click)
 end)
 
 a(scenarios_vroot, "Fishing", {"Fishing"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_STAND_FISHING", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_STAND_FISHING", 0, true)
 end)
 
 a(scenarios_vroot, "Flag Bearer", {"Flag Bearer"}, "", function(on_click)
@@ -4761,7 +4753,7 @@ a(scenarios_vroot, "Garbage Bag", {"Garbage Bag"}, "", function(on_click)
 end)
 
 a(scenarios_vroot, "Gardener", {"Gardener"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_GARDENER_PLANT", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_GARDENER_PLANT", 0, true)
 end)
 
 a(scenarios_vroot, "Gold Bar Offer", {"Gold Bar Offer"}, "", function(on_click)
@@ -4825,7 +4817,7 @@ a(scenarios_vroot, "Paparazzi", {"Paparazzi"}, "", function(on_click)
 end)
 
 a(scenarios_vroot, "Phone Recording", {"Phone Recording"}, "", function(on_click)
-    TASK.TASK_START_SCENARIO_IN_PLACE(PLAYER.PLAYER_PED_ID(), "WORLD_HUMAN_MOBILE_FILM_SHOCKING", 0, true)
+    TASK.TASK_START_SCENARIO_IN_PLACE(players.user_ped(), "WORLD_HUMAN_MOBILE_FILM_SHOCKING", 0, true)
 end)
 
 a(scenarios_vroot, "Pizza Delivery", {"Pizza Delivery"}, "", function(on_click)
@@ -9319,20 +9311,20 @@ while true do
     if X_HandsUp then
         if PAD.IS_CONTROL_PRESSED(1, 323) then
             loadAnimation("random@mugging3")
-            if not ENTITY.IS_ENTITY_PLAYING_ANIM(PLAYER.PLAYER_PED_ID(), "random@mugging3", "handsup_standing_base", 3) then
-                TASK.CLEAR_PED_TASKS(PLAYER.PLAYER_PED_ID()) -- Clear Animation
-                TASK.CLEAR_PED_SECONDARY_TASK(PLAYER.PLAYER_PED_ID()) -- Clear Animation Secondary
+            if not ENTITY.IS_ENTITY_PLAYING_ANIM(players.user_ped(), "random@mugging3", "handsup_standing_base", 3) then
+                TASK.CLEAR_PED_TASKS(players.user_ped()) -- Clear Animation
+                TASK.CLEAR_PED_SECONDARY_TASK(players.user_ped()) -- Clear Animation Secondary
         
-               WEAPON.GIVE_WEAPON_TO_PED(PLAYER.PLAYER_PED_ID(), MISC.GET_HASH_KEY("WEAPON_UNARMED"), 1, false, true)
-                TASK.TASK_PLAY_ANIM(PLAYER.PLAYER_PED_ID(), "random@mugging3", "handsup_standing_base", 4, 4, -1, 51, 0, false, false, false)
+               WEAPON.GIVE_WEAPON_TO_PED(players.user_ped(), MISC.GET_HASH_KEY("WEAPON_UNARMED"), 1, false, true)
+                TASK.TASK_PLAY_ANIM(players.user_ped(), "random@mugging3", "handsup_standing_base", 4, 4, -1, 51, 0, false, false, false)
                 STREAMING.REMOVE_ANIM_DICT("random@mugging3")
-                PED.SET_ENABLE_HANDCUFFS(PLAYER.PLAYER_PED_ID(), true)
+                PED.SET_ENABLE_HANDCUFFS(players.user_ped(), true)
             end
         end
-        if PAD.IS_CONTROL_RELEASED(1, 323) and ENTITY.IS_ENTITY_PLAYING_ANIM(PLAYER.PLAYER_PED_ID(), "random@mugging3", "handsup_standing_base", 3) then
-            PED.SET_ENABLE_HANDCUFFS(PLAYER.PLAYER_PED_ID(), false)
-            TASK.CLEAR_PED_TASKS(PLAYER.PLAYER_PED_ID()) -- Clear Animation
-            TASK.CLEAR_PED_SECONDARY_TASK(PLAYER.PLAYER_PED_ID()) -- Clear Animation Secondary
+        if PAD.IS_CONTROL_RELEASED(1, 323) and ENTITY.IS_ENTITY_PLAYING_ANIM(players.user_ped(), "random@mugging3", "handsup_standing_base", 3) then
+            PED.SET_ENABLE_HANDCUFFS(players.user_ped(), false)
+            TASK.CLEAR_PED_TASKS(players.user_ped()) -- Clear Animation
+            TASK.CLEAR_PED_SECONDARY_TASK(players.user_ped()) -- Clear Animation Secondary
              -- remove objects from player
         end
     end
