@@ -7,7 +7,7 @@
 --===================================================================================
 
 -- Define script version
-local sv = "1.0.4.18"
+local sv = "1.0.4.19"
 
 -- User settings
 local toggle_preview = 1 -- Preview links are enabled by default (set to 0 to turn off)
@@ -187,7 +187,7 @@ scenarios_vroot = l(props_root, "Scenarios", {"props_scenarios"}, "Mixed set of 
 glowstick_root = l(props_root, "Attach Glowsticks", {"attachglowsticks"}, "")
 backpacks_vroot = l(props_root, "Backpacks", {"props_backpacks"}, "Assorted list of Backpacks")
 chairs_vroot = l(props_root, "Chairs", {"props_chairs"}, "Assorted list of Chairs")
-advancedaccessories= l(props_root, "Advanced Accessories", {"props_accesoriesadv"}, "list of Advanced Accessories")
+advancedaccessories_vroot = l(props_root, "Advanced Accessories", {"props_accesoriesadv"}, "list of Advanced Accessories")
 animalanims_root = l(mr, "Animals", {"animalanims"}, "List of animations for animals")
 d(animalanims_root, "Animals")
 catanims_vroot = l(animalanims_root, "Cats", {"catanims"}, "List of animations for cats")
@@ -303,9 +303,14 @@ function request_model_load(hash)
     end
 end
 
-function attachto(offx, offy, offz, pid, angx, angy, angz, hash, bone, isnpc, isveh, tint, vertexindex)
+function attachto(offx, offy, offz, pid, angx, angy, angz, hash, bone, isnpc, isveh, tint, vertexindex, bonepref)
     local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local bone = PED.GET_PED_BONE_INDEX(ped, bone)
+    local boneindex
+    if bonepref then
+        boneindex = bone
+    else
+        boneindex = PED.GET_PED_BONE_INDEX(ped, bone)
+    end
     local coords = ENTITY.GET_ENTITY_COORDS(ped, true)
     coords.x = coords['x']
     coords.y = coords['y']
@@ -321,7 +326,7 @@ function attachto(offx, offy, offz, pid, angx, angy, angz, hash, bone, isnpc, is
         OBJECT.SET_OBJECT_TINT_INDEX(obj, tint)
     end
     ENTITY.SET_ENTITY_INVINCIBLE(obj, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(obj, ped, bone, offx, offy, offz, angx, angy, angz, false, false, true, false, vertexindex or 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(obj, ped, boneindex, offx, offy, offz, angx, angy, angz, false, false, true, false, vertexindex or 0, true)
     ENTITY.SET_ENTITY_COMPLETELY_DISABLE_COLLISION(obj, false, true)
 end
 
@@ -4153,6 +4158,173 @@ a(backpacks_vroot, "Florecer", {"florecer"}, "", function(on_click)
 end)
 
 ----- Advanced Accessories -----
+
+a(advancedaccessories_vroot, "Catgirl War", {"catgirlwar"}, "", function(on_click)
+    local objects = {
+        {
+            model = "w_sg_assaultshotgun_mag2",
+            boneIndex = 2,
+            offset = {x = 0.21, y = 0.04, z = 0.14},
+            rotation = {x = 0.0, y = 0.0, z = 0.0}
+        },
+        {
+            model = "w_sg_assaultshotgun_mag2",
+            boneIndex = 2,
+            offset = {x = 0.21, y = 0.01, z = 0.14},
+            rotation = {x = 0.0, y = 0.0, z = 0.0}
+        },
+        {
+            model = "w_sb_assaultsmg_mag2",
+            boneIndex = 2,
+            offset = {x = 0.18, y = 0.08, z = 0.01},
+            rotation = {x = -84.0, y = 94.5, z = 1.5}
+        },
+        {
+            model = "bkr_prop_scrunched_moneypage",
+            boneIndex = 2,
+            offset = {x = 0.13, y = 0.08, z = -0.06},
+            rotation = {x = 6.0, y = 9.0, z = 88.5}
+        },
+        {
+            model = "p_single_rose_s",
+            boneIndex = 2,
+            offset = {x = 0.4, y = 0.02, z = -0.02},
+            rotation = {x = -3.0, y = -105.0, z = -10.5}
+        },
+        {
+            model = "w_me_knife_xm3_07",
+            boneIndex = 2,
+            offset = {x = 0.13, y = 0.02, z = -0.1},
+            rotation = {x = -97.5, y = 100.5, z = 7.5}
+        },
+        {
+            model = "w_me_knife_xm3",
+            boneIndex = 0,
+            offset = {x = 0.12, y = -0.08, z = 0.1},
+            rotation = {x = 163.5, y = -3.0, z = 34.5}
+        },
+        {
+            model = "prop_cs_cuffs_01",
+            boneIndex = 0,
+            offset = {x = 0.14, y = -0.03, z = 0.04},
+            rotation = {x = 88.5, y = 67.5, z = 0.0}
+        },
+        {
+            model = "prop_cuff_keys_01",
+            boneIndex = 0,
+            offset = {x = 0.13, y = 0.14, z = 0.04},
+            rotation = {x = 36.0, y = 75.0, z = 70.5}
+        },
+        {
+            model = "w_sb_gusenberg_mag2",
+            boneIndex = 14,
+            offset = {x = 0.34, y = -0.045, z = 0.007},
+            rotation = {x = 79.5, y = -3.0, z = -1.5}
+        },
+        {
+            model = "w_sb_gusenberg_mag2",
+            boneIndex = 14,
+            offset = {x = 0.26, y = -0.01, z = 0.03},
+            rotation = {x = 52.5, y = 0.0, z = -4.5}
+        },
+        {
+            model = "w_sg_pumpshotgunh4_mag1",
+            boneIndex = 2,
+            offset = {x = 0.23, y = 0.13, z = 0.01},
+            rotation = {x = 0.0, y = 0.0, z = 0.0}
+        },
+        {
+            model = "w_sg_pumpshotgunh4_mag1",
+            boneIndex = 2,
+            offset = {x = 0.23, y = 0.12, z = 0.04},
+            rotation = {x = 0.0, y = 0.0, z = 0.0}
+        },
+        {
+            model = "w_sb_assaultsmg_luxe_mag1",
+            boneIndex = 1,
+            offset = {x = 0.0, y = -0.05, z = -0.19},
+            rotation = {x = 54.0, y = 112.5, z = -36.0}
+        },
+        {
+            model = "w_pi_revolvermk2_mag5",
+            boneIndex = 0,
+            offset = {x = -0.11, y = -0.06, z = 0.12},
+            rotation = {x = -19.5, y = 102.0, z = 1.5}
+        },
+        {
+            model = "w_pi_revolvermk2_mag5",
+            boneIndex = 0,
+            offset = {x = -0.07, y = -0.072, z = 0.12},
+            rotation = {x = -19.5, y = 100.5, z = 3.0}
+        },
+        {
+            model = "w_pi_revolver_mag1",
+            boneIndex = 14,
+            offset = {x = 0.23, y = 0.1, z = 0.04},
+            rotation = {x = 21.0, y = 1.5, z = -12.0}
+        },
+        {
+            model = "w_pi_revolver_mag1",
+            boneIndex = 14,
+            offset = {x = 0.23, y = 0.11, z = 0.02},
+            rotation = {x = 21.0, y = 1.5, z = -12.0}
+        },
+        {
+            model = "w_pi_revolvermk2_mag4",
+            boneIndex = 14,
+            offset = {x = 0.295, y = -0.06, z = 0.01},
+            rotation = {x = 0.0, y = 0.0, z = 0.0}
+        },
+        {
+            model = "w_pi_sns_pistol_mag2",
+            boneIndex = 2,
+            offset = {x = -0.03, y = 0.125, z = 0.015},
+            rotation = {x = 10.5, y = 79.5, z = 27.0}
+        },
+        {
+            model = "w_pi_revolvermk2_mag2",
+            boneIndex = 2,
+            offset = {x = -0.06, y = 0.115, z = 0.015},
+            rotation = {x = 21.0, y = 4.5, z = 13.5}
+        },
+        {
+            model = "w_sg_pumpshotgunh4_mag1",
+            boneIndex = 2,
+            offset = {x = 0.23, y = -0.05, z = 0.07},
+            rotation = {x = 0.0, y = 0.0, z = 0.0}
+        },
+        {
+            model = "w_sg_pumpshotgunh4_mag1",
+            boneIndex = 2,
+            offset = {x = 0.23, y = -0.01, z = 0.09},
+            rotation = {x = 0.0, y = 0.0, z = 0.0}
+        },
+        {
+            model = "w_sg_pumpshotgunh4_mag1",
+            boneIndex = 2,
+            offset = {x = 0.23, y = 0.13, z = 0.04},
+            rotation = {x = 0.0, y = 0.0, z = 0.0}
+        },
+        {
+            model = "w_sb_gusenberg_mag2",
+            boneIndex = 14,
+            offset = {x = 0.26, y = -0.06, z = 0.01},
+            rotation = {x = 82.5, y = 3.0, z = -4.5}
+        },
+        {
+            model = "w_pi_pistol50_luxe",
+            boneIndex = 25,
+            offset = {x = -0.09, y = 0.12, z = 0.08},
+            rotation = {x = -91.5, y = -1.5, z = -12.0}
+        }
+    }
+
+    for _, obj in ipairs(objects) do
+        local modelHash = util.joaat(obj.model)
+        request_model_load(modelHash)
+        attachto(obj.offset.x, obj.offset.y, obj.offset.z, players.user(), obj.rotation.x, obj.rotation.y, obj.rotation.z, modelHash, obj.boneIndex, false, false, nil, 2, true)
+    end
+end)
 
 --- Chairs ---
 
