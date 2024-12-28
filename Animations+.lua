@@ -7,7 +7,7 @@
 --===================================================================================
 
 -- Define script version
-local sv = "1.0.4.17"
+local sv = "1.0.4.18"
 
 -- User settings
 local toggle_preview = 1 -- Preview links are enabled by default (set to 0 to turn off)
@@ -186,7 +186,8 @@ plushes_vroot = l(props_root, "Plushes & Toys", {"props_plushes"}, "Awww")
 scenarios_vroot = l(props_root, "Scenarios", {"props_scenarios"}, "Mixed set of prop animations")
 glowstick_root = l(props_root, "Attach Glowsticks", {"attachglowsticks"}, "")
 backpacks_vroot = l(props_root, "Backpacks", {"props_backpacks"}, "Assorted list of Backpacks")
-chairs_vroot = l(props_root, "Chairs", {"props_chairs"}, "Assorted list of Backpacks")
+chairs_vroot = l(props_root, "Chairs", {"props_chairs"}, "Assorted list of Chairs")
+advancedaccessories= l(props_root, "Advanced Accessories", {"props_accesoriesadv"}, "list of Advanced Accessories")
 animalanims_root = l(mr, "Animals", {"animalanims"}, "List of animations for animals")
 d(animalanims_root, "Animals")
 catanims_vroot = l(animalanims_root, "Cats", {"catanims"}, "List of animations for cats")
@@ -4150,6 +4151,8 @@ a(backpacks_vroot, "Florecer", {"florecer"}, "", function(on_click)
         attachto(obj.offset.x, obj.offset.y, obj.offset.z, players.user(), obj.rotation.x, obj.rotation.y, obj.rotation.z, modelHash, obj.boneIndex, false, false, nil, 2)
     end
 end)
+
+----- Advanced Accessories -----
 
 --- Chairs ---
 
