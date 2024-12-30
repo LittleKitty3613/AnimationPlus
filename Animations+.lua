@@ -355,6 +355,8 @@ function getAllObjects()
     return out
 end
 
+--Delete all objs and clear tasks on script unload
+util.on_stop(function() removeObjectsFromPlayer(players.user()); TASK.CLEAR_PED_TASKS(players.user_ped()); TASK.CLEAR_PED_SECONDARY_TASK(players.user_ped()) end)
 
 function RequestControlOfEnt(entity)
 	local tick = 0
@@ -4645,9 +4647,9 @@ d(scenarios_vroot, "Bonus")
 
 a(scenarios_vroot, "Play Organ", {"playorgan"}, "", function(on_click)
     request_model_load(0xc0217799)
-    attachto(0.97, -0.46, 0.50, players.user(), 75.0, -72.0, -163.0, 0xc0217799, 46078, false, false)
+    attachto(0.02, 1.5, -1, players.user(), 0, 0, 0, 0xc0217799, -1, false, false)
 	request_model_load(0x2dc7c832)
-    attachto(-0.02, -0.19, -0.59, players.user(), -15.0, -2.0, 0.0, 0x2dc7c832, 0, false, false)
+    attachto(-0.02, 0, -1, players.user(), 0, 0, 0, 0x2dc7c832, -1, false, false)
     play_animstationary("anim@amb@board_room@stenographer@computer@", "base_right_amy_skater_01", -1)
 end)
 
